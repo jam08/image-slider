@@ -5,7 +5,7 @@ function Slide(props) {
   const {data} = props;
   return (
     <li>
-      <img src={data.image} alt={data.text} />
+      <img src={data.image} alt={data.text} aria-live="polite"/>
     </li>
   );
 }

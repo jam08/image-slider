@@ -5,14 +5,30 @@ import Slide from './Slide';
 import ArrayButton from './ArrowButton';
 import PlayButton from './PlayButton';
 
-class Slider extends React.Component {
-  state = {
-    currentIndex: 0,
-    isRunning: true,
-    paused: false,
+const styles = {
+  isPaused: {
+    color: '#495e81',
+    backgroundColor: '#fff'
+  },
+  isPlaying: {
+    color: '#fff',
+    backgroundColor: '#495e81'
   }
+}
 
+class Slider extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentIndex: 0,
+      isRunning: true,
+      paused: false,
+    };
+    this.playButton = React.createRef();
+  }
+  
   componentDidMount() {
+    this.playButton.current.focus();
     this.handleStartSlides();
   }
 
@@ -41,7 +57,6 @@ class Slider extends React.Component {
     const length = imageData.length;
     if(currentIndex >= 0 && currentIndex < length - 1) {
       currentIndex++;
-      console.log('next: ', currentIndex);
       this.setState({currentIndex});
     }
   }
@@ -50,7 +65,6 @@ class Slider extends React.Component {
     let {currentIndex} = this.state;
     if(currentIndex > 0) {
       currentIndex--;
-      console.log('previous: ', currentIndex);
       this.setState({currentIndex});
     }
   }
@@ -89,7 +103,8 @@ class Slider extends React.Component {
   }
 
   render() {
-    const {currentIndex, paused} = this.state;
+    const {currentIndex, isRunning, paused} = this.state;
+    console.log('who is this? ',this.playButton);
     const length = imageData.length;
     return (
       <section>
@@ -97,13 +112,19 @@ class Slider extends React.Component {
         <ul>
           <Slide data={imageData[currentIndex]} />
         </ul>
-        <ArrayButton name="Previous" onClick={this.handleToPrevious} disabled={currentIndex === 0}/>
-        <PlayButton 
-          onMouseEnter={this.handleMouseEnter} 
-          onMouseLeave={this.handleMouseLeave} 
-          onClick={this.handlePlayButton}
-          name={paused ? "Play" : "Stop"} />
-        <ArrayButton name="Next" onClick={this.handleToNext} disabled={currentIndex === length - 1}/>
+        <div className="button-container">
+          <ArrayButton name="Previous" onClick={this.handleToPrevious} disabled={currentIndex === 0}/>
+          <PlayButton 
+            onMouseEnter={this.handleMouseEnter} 
+            onMouseLeave={this.handleMouseLeave} 
+            onClick={this.handlePlayButton}
+            name={paused ? "Paused" : "Playing"}
+            pressed={!paused}
+            refBtn={this.playButton}
+            style={isRunning ? styles.isPlaying : styles.isPaused}
+          />
+          <ArrayButton name="Next" onClick={this.handleToNext} disabled={currentIndex === length - 1}/>
+        </div>
       </section>
     );
   }

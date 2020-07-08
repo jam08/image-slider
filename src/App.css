@@ -30,6 +30,7 @@
 h1 {
   font-size: 2em;
 }
+
 section h2 {
   display: none;
 }
@@ -50,6 +51,21 @@ img {
 @media only screen and (min-width: 50em) {
   img {
     width: 50em;
+  }
+  
+  .button-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+  }
+  button {
+    font-size: 1em;
+    width: 10em;
+    height: 2em;
+    margin-left: 0.3em;
+    background-color: #fff;
+    border: 0.1em solid #495e81;
   }
 }
 @keyframes App-logo-spin {
