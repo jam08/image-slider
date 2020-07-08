@@ -1,16 +1,27 @@
 import React from 'react';
 import '../App.css';
-// import sheeps from '../images/sheeps@2x.jpg';
-// import library from '../images/Library@2x.jpg';
-// import templeBar from '../images/TempleBar@2x.jpg';
 import { imageData } from '../data/ImageData';
 import Slide from './Slide';
 import ArrayButton from './ArrowButton';
+import PlayButton from './PlayButton';
 
 class Slider extends React.Component {
   state = {
     currentIndex: 0,
     isRunning: true,
+    paused: false,
+  }
+
+  componentDidMount() {
+    this.handleStartSlides();
+  }
+
+  handleStartSlides = () => {
+    this.slideInterval = setInterval(this.handleSlideChange, 4000);
+  }
+
+  handleStopSlides = () => {
+    clearInterval(this.slideInterval);
   }
 
   handleSlideChange = () => {
@@ -20,7 +31,7 @@ class Slider extends React.Component {
       currentIndex++;
       this.setState({currentIndex});
     } else if(currentIndex === length - 1) {
-      currentIndex--;
+      currentIndex = 0;
       this.setState({currentIndex});
     }
   }
@@ -30,6 +41,7 @@ class Slider extends React.Component {
     const length = imageData.length;
     if(currentIndex >= 0 && currentIndex < length - 1) {
       currentIndex++;
+      console.log('next: ', currentIndex);
       this.setState({currentIndex});
     }
   }
@@ -38,12 +50,46 @@ class Slider extends React.Component {
     let {currentIndex} = this.state;
     if(currentIndex > 0) {
       currentIndex--;
+      console.log('previous: ', currentIndex);
       this.setState({currentIndex});
     }
   }
 
+  handleMouseEnter = () => {
+    const {isRunning, paused} = this.state;
+    if(isRunning && !paused) {
+      this.handleStopSlides();
+      this.setState({isRunning: false});
+    }
+  }
+
+  handleMouseLeave = () => {
+    const {isRunning, paused} = this.state;
+    if(!isRunning && !paused) {
+      this.handleStartSlides();
+      this.setState({isRunning: true});
+    }
+  }
+
+  handlePlayButton = () => {
+    const {paused} = this.state;
+    if(!paused) {
+      this.handleStopSlides();
+      this.setState({
+        isRunning: false,
+        paused: true
+      });
+    } else {
+      this.handleStartSlides();
+      this.setState({
+        isRunning: true,
+        paused: false
+      });
+    }
+  }
+
   render() {
-    const {currentIndex} = this.state;
+    const {currentIndex, paused} = this.state;
     const length = imageData.length;
     return (
       <section>
@@ -52,6 +98,11 @@ class Slider extends React.Component {
           <Slide data={imageData[currentIndex]} />
         </ul>
         <ArrayButton name="Previous" onClick={this.handleToPrevious} disabled={currentIndex === 0}/>
+        <PlayButton 
+          onMouseEnter={this.handleMouseEnter} 
+          onMouseLeave={this.handleMouseLeave} 
+          onClick={this.handlePlayButton}
+          name={paused ? "Play" : "Stop"} />
         <ArrayButton name="Next" onClick={this.handleToNext} disabled={currentIndex === length - 1}/>
       </section>
     );
