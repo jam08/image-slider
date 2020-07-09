@@ -36,10 +36,20 @@ section h2 {
 }
 
 ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  font-size: 1em;
+  margin: 0 0.8em;
+  scroll-behavior: smooth;
+  overflow-x: auto;
   padding: 0;
 }
 
 li {
+  font-size: 1em;
+  margin-right: 0.8em;
   list-style-type: none;
 }
 

@@ -4,6 +4,7 @@ import { imageData } from '../data/ImageData';
 import Slide from './Slide';
 import ArrayButton from './ArrowButton';
 import PlayButton from './PlayButton';
+import SlideNav from './SlideNav';
 
 const styles = {
   isPaused: {
@@ -40,6 +41,11 @@ class Slider extends React.Component {
     clearInterval(this.slideInterval);
   }
 
+  changeHash = (newHash) => {
+    let {location} = window;
+    return location.hash = newHash;
+  }
+
   handleSlideChange = () => {
     let {currentIndex} = this.state;
     const length = imageData.length;
@@ -52,7 +58,8 @@ class Slider extends React.Component {
     }
   }
 
-  handleToNext = () => {
+  handleToNext = (e) => {
+    e.preventDefault();
     let {currentIndex} = this.state;
     const length = imageData.length;
     if(currentIndex >= 0 && currentIndex < length - 1) {
@@ -61,7 +68,8 @@ class Slider extends React.Component {
     }
   }
 
-  handleToPrevious = () => {
+  handleToPrevious = (e) => {
+    e.preventDefault();
     let {currentIndex} = this.state;
     if(currentIndex > 0) {
       currentIndex--;
@@ -104,16 +112,20 @@ class Slider extends React.Component {
 
   render() {
     const {currentIndex, isRunning, paused} = this.state;
-    console.log('who is this? ',this.playButton);
     const length = imageData.length;
+
+    let inRangePrev = currentIndex > 0 && currentIndex === length - 1;
+    let inRangeNext = currentIndex === 0 && currentIndex < length - 1;
+
+    let slideNumber = currentIndex + 1;
+    this.changeHash(`slide-${slideNumber}`);
+
     return (
       <section>
         <h2>Images of Ireland</h2>
-        <ul>
-          <Slide data={imageData[currentIndex]} />
-        </ul>
+        <Slide slides={imageData} current={currentIndex}/>
+        <SlideNav slides={imageData} />
         <div className="button-container">
-          <ArrayButton name="Previous" onClick={this.handleToPrevious} disabled={currentIndex === 0}/>
           <PlayButton 
             onMouseEnter={this.handleMouseEnter} 
             onMouseLeave={this.handleMouseLeave} 
@@ -123,7 +135,18 @@ class Slider extends React.Component {
             refBtn={this.playButton}
             style={isRunning ? styles.isPlaying : styles.isPaused}
           />
-          <ArrayButton name="Next" onClick={this.handleToNext} disabled={currentIndex === length - 1}/>
+          <ArrayButton 
+            name="Previous" 
+            moveTo={inRangePrev ? `slide-${slideNumber - 1}` : ""} 
+            onClick={this.handleToPrevious}
+            disabled={currentIndex === 0}
+          />
+          <ArrayButton 
+            name="Next" 
+            moveTo={inRangeNext ? `slide-${slideNumber + 1}` : ""} 
+            onClick={this.handleToNext}
+            disabled={currentIndex === length - 1}
+          />
         </div>
       </section>
     );
