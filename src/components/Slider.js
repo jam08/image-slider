@@ -9,12 +9,18 @@ import SlideNav from './SlideNav';
 
 const styles = {
   isPaused: {
-    color: '#495e81',
+    color: '#29292b',
     backgroundColor: '#fff'
   },
   isPlaying: {
     color: '#fff',
-    backgroundColor: '#495e81'
+    backgroundColor: '#29292b'
+  },
+  hover: {
+    borderWidth: '0.3em',
+  },
+  normal: {
+    borderWidth: '0.2em',
   }
 }
 
@@ -25,6 +31,7 @@ class Slider extends React.Component {
       currentIndex: 0,
       isRunning: true,
       paused: false,
+      hover: false
     };
     this.playButton = React.createRef();
   }
@@ -77,6 +84,14 @@ class Slider extends React.Component {
       this.setState({currentIndex});
     }
   }
+
+  // handleOnMouseOver = () => {
+  //   this.setState({hover: true});
+  // }
+
+  // handleOnMouseOut = () => {
+  //   this.setState({hover: false});
+  // }
 
   handleMouseEnter = () => {
     const {isRunning, paused} = this.state;
@@ -141,7 +156,11 @@ class Slider extends React.Component {
             onClick={this.handleToPrevious}
             disabled={currentIndex === 0}
           />
-          <SlideNav slides={imageData} />
+          <SlideNav 
+            slides={imageData}
+            slideNumber={slideNumber}
+            style={styles}
+          />
           <RightArrow 
             name="Next" 
             moveTo={inRangeNext ? `slide-${slideNumber + 1}` : ""} 
