@@ -1,5 +1,6 @@
 import React from 'react';
 import '../App.css';
+import { ReactComponent as PlayBtn } from '../images/play-circle-solid.svg';
 
 function PlayButton(props) {
   // console.log('ref: ', props.reBtn);
@@ -13,6 +14,7 @@ function PlayButton(props) {
       ref={props.refBtn}
       style={props.style}
     >
+      <PlayBtn />
       {props.name}
     </button>
   );

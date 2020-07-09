@@ -42,8 +42,8 @@ ul {
   justify-content: flex-start;
   font-size: 1em;
   margin: 0 0.8em;
-  scroll-behavior: smooth;
   overflow-x: auto;
+  scroll-behavior: smooth;
   padding: 0;
 }
 
@@ -54,29 +54,57 @@ li {
 }
 
 img {
-  width: 30em;
+  font-size: 1em; 
+  width: 20em;
   height: auto;
 }
+.button-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
 
-@media only screen and (min-width: 50em) {
+button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+button, a {
+  font-size: 1em;
+  width: 8em;
+  height: 2em;
+  margin-left: 0.3em;
+  background-color: #fff;
+  border: 0.1em solid #495e81;
+}
+
+a:link, a:visited {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: #495e81;
+  text-decoration: none;
+  vertical-align: middle;
+}
+a span {
+  padding: 0 0.2em;
+}
+svg {
+  font-size: 1em;
+  width: 1.5em;
+}
+
+@media only screen and (min-width: 30em) {
   img {
     width: 50em;
   }
   
-  .button-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
-  }
-  button {
-    font-size: 1em;
-    width: 10em;
-    height: 2em;
-    margin-left: 0.3em;
-    background-color: #fff;
-    border: 0.1em solid #495e81;
-  }
+  
+
 }
 @keyframes App-logo-spin {
   from {

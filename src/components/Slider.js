@@ -2,7 +2,8 @@ import React from 'react';
 import '../App.css';
 import { imageData } from '../data/ImageData';
 import Slide from './Slide';
-import ArrayButton from './ArrowButton';
+import LeftArrow from './LeftArrow';
+import RightArrow from './RightArrow';
 import PlayButton from './PlayButton';
 import SlideNav from './SlideNav';
 
@@ -124,7 +125,6 @@ class Slider extends React.Component {
       <section>
         <h2>Images of Ireland</h2>
         <Slide slides={imageData} current={currentIndex}/>
-        <SlideNav slides={imageData} />
         <div className="button-container">
           <PlayButton 
             onMouseEnter={this.handleMouseEnter} 
@@ -135,13 +135,14 @@ class Slider extends React.Component {
             refBtn={this.playButton}
             style={isRunning ? styles.isPlaying : styles.isPaused}
           />
-          <ArrayButton 
+          <LeftArrow
             name="Previous" 
             moveTo={inRangePrev ? `slide-${slideNumber - 1}` : ""} 
             onClick={this.handleToPrevious}
             disabled={currentIndex === 0}
           />
-          <ArrayButton 
+          <SlideNav slides={imageData} />
+          <RightArrow 
             name="Next" 
             moveTo={inRangeNext ? `slide-${slideNumber + 1}` : ""} 
             onClick={this.handleToNext}
