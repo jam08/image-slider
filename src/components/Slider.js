@@ -10,17 +10,11 @@ import SlideNav from './SlideNav';
 const styles = {
   isPaused: {
     color: '#29292b',
-    backgroundColor: '#fff'
+    backgroundColor: 'rgb(238, 237, 237)'
   },
   isPlaying: {
     color: '#fff',
     backgroundColor: '#29292b'
-  },
-  hover: {
-    borderWidth: '0.3em',
-  },
-  normal: {
-    borderWidth: '0.2em',
   }
 }
 
@@ -66,6 +60,22 @@ class Slider extends React.Component {
     }
   }
 
+  handleMouseEnter = () => {
+    const {isRunning, paused} = this.state;
+    if(isRunning && !paused) {
+      this.handleStopSlides();
+      this.setState({isRunning: false});
+    }
+  }
+
+  handleMouseLeave = () => {
+    const {isRunning, paused} = this.state;
+    if(!isRunning && !paused) {
+      this.handleStartSlides();
+      this.setState({isRunning: true});
+    }
+  }
+
   handleToNext = (e) => {
     e.preventDefault();
     let {currentIndex} = this.state;
@@ -85,28 +95,16 @@ class Slider extends React.Component {
     }
   }
 
-  // handleOnMouseOver = () => {
-  //   this.setState({hover: true});
-  // }
-
-  // handleOnMouseOut = () => {
-  //   this.setState({hover: false});
-  // }
-
-  handleMouseEnter = () => {
-    const {isRunning, paused} = this.state;
-    if(isRunning && !paused) {
-      this.handleStopSlides();
-      this.setState({isRunning: false});
+  handleKeyPress = (e) => {
+    const target = e.currentTarget.name;
+    if(e.keyCode === 32) {
+      target === "Previous" ? this.handleToPrevious(e) : this.handleToNext(e);
     }
   }
 
-  handleMouseLeave = () => {
-    const {isRunning, paused} = this.state;
-    if(!isRunning && !paused) {
-      this.handleStartSlides();
-      this.setState({isRunning: true});
-    }
+  handleGoToPage = (e) => {
+    const target = parseInt(e.target.name);
+    this.setState({currentIndex: target});
   }
 
   handlePlayButton = () => {
@@ -154,17 +152,21 @@ class Slider extends React.Component {
             name="Previous" 
             moveTo={inRangePrev ? `slide-${slideNumber - 1}` : ""} 
             onClick={this.handleToPrevious}
+            onKeyDown={this.handleKeyPress}
             disabled={currentIndex === 0}
           />
           <SlideNav 
             slides={imageData}
             slideNumber={slideNumber}
+            onKeyDown={this.handleKeyPress}
+            onClick={this.handleGoToPage}
             style={styles}
           />
           <RightArrow 
             name="Next" 
             moveTo={inRangeNext ? `slide-${slideNumber + 1}` : ""} 
             onClick={this.handleToNext}
+            onKeyDown={this.handleKeyPress}
             disabled={currentIndex === length - 1}
           />
         </div>

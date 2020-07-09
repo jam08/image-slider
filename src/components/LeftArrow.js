@@ -2,11 +2,13 @@ import React from 'react';
 import '../App.css';
 import { ReactComponent as ChevronLeft } from '../images/chevron-circle-left-solid.svg';
 
-function ArrowButton(props) {
+function LeftButton(props) {
   return (
     <a 
       href={props.moveTo} 
       onClick={props.onClick} 
+      onKeyDown={props.onKeyDown}
+      name={props.name}
       disabled={props.disabled}>
           <ChevronLeft />
           <span>{props.name}</span>
@@ -14,4 +16,4 @@ function ArrowButton(props) {
   );
 }
 
-export default ArrowButton;
+export default LeftButton;

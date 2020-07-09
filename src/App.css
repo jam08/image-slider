@@ -54,15 +54,13 @@ ul {
 }
 
 li {
-  /* display: inline-block; */
   font-size: 1em;
   margin-right: 0.8em;
   list-style-type: none;
 }
 .item {
-  width: auto;
   height: 100%;
-  margin: 0 2em;
+  margin: 0 1em;
 }
 
 figure {
@@ -73,15 +71,17 @@ figure {
 }
 figcaption {
   position: absolute;
-  width: 40%;
-  top: 1em;
-  right: 0;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
   text-align: right;
   background-color: #fff;
   padding: 0.5em 1em;
 }
 p {
   margin: 0;
+  padding-right: 1em;
 }
 img {
   font-size: 1em; 
@@ -93,13 +93,10 @@ img {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  height: 10%;
-}
-
-button {
-  line-height: 1.4;
+  margin: 1em auto;
+  width: 100%;
 }
 
 button, a {
@@ -148,23 +145,9 @@ svg {
     height: 100%;
   }
   section {
-    box-sizing: border-box;
-    width: 100vw;
     height: 90%;
-    line-height: 1.4;
   }
-  ul {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    font-size: 1em;
-    margin: 0 0.8em;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-behavior: smooth;
-    padding: 0;
-  }
+
   .slides {
     width: 80%;
     height: 80vh;
@@ -172,54 +155,30 @@ svg {
   }
   
   li {
-    /* display: inline-block; */
     font-size: 1em;
     margin-right: 0.8em;
     list-style-type: none;
   }
   .item {
-    width: auto;
-    height: 100%;
     margin: 0 2em;
   }
-  
-  figure {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    margin: 0 ;
-  }
+
   figcaption {
     position: absolute;
     width: 40%;
     top: 1em;
-    right: 0;
-    text-align: right;
-    background-color: #fff;
-    padding: 0.5em 1em;
-  }
-  p {
-    margin: 0;
   }
   
   .button-container {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-  }
-  
-  button {
-    line-height: 1.4;
-  }
+    margin-top: 1em;
+    }
   
   button, a {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    font-size: 1em;
     width: 8em;
     height: 2em;
     margin-left: 0.3em;
@@ -227,24 +186,6 @@ svg {
     border: 0.1em solid #454547;
     border-radius: 0.2em;
   }
-  
-  a:link, a:visited {
-    color: #29292b;
-    text-decoration: none;
-  }
-  
-  span {
-    font-size: 1em;
-    padding: 0 0.2em;
-  }
-  /* ul.slide-nav {
-    justify-content: space-evenly;
-    width: 50%;
-  }
-
-  .nav-slides a {
-    width: 4em;
-  } */
 
   ul.slide-nav {
     justify-content: center;
@@ -253,10 +194,16 @@ svg {
  
   .nav-slides a {
     width: 2em;
+  } 
+}
+
+@media only screen and (min-width: 40em) {
+  .button-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1em;
   }
-  svg {
-    font-size: 1em;
-    width: 1.5em;
-  }
-  
 }
