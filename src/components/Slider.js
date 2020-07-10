@@ -2,17 +2,19 @@ import React from 'react';
 import '../App.css';
 import { imageData } from '../data/ImageData';
 import Slide from './Slide';
-import ArrayButton from './ArrowButton';
+import LeftArrow from './LeftArrow';
+import RightArrow from './RightArrow';
 import PlayButton from './PlayButton';
+import SlideNav from './SlideNav';
 
 const styles = {
   isPaused: {
-    color: '#495e81',
-    backgroundColor: '#fff'
+    color: '#29292b',
+    backgroundColor: 'rgb(238, 237, 237)'
   },
   isPlaying: {
     color: '#fff',
-    backgroundColor: '#495e81'
+    backgroundColor: '#29292b'
   }
 }
 
@@ -21,15 +23,16 @@ class Slider extends React.Component {
     super(props);
     this.state = {
       currentIndex: 0,
-      isRunning: true,
-      paused: false,
+      isRunning: false,
+      paused: true,
+      hover: false
     };
     this.playButton = React.createRef();
   }
   
   componentDidMount() {
     this.playButton.current.focus();
-    this.handleStartSlides();
+    // this.handleStartSlides();
   }
 
   handleStartSlides = () => {
@@ -40,6 +43,11 @@ class Slider extends React.Component {
     clearInterval(this.slideInterval);
   }
 
+  changeHash = (newHash) => {
+    let {location} = window;
+    return location.hash = newHash;
+  }
+
   handleSlideChange = () => {
     let {currentIndex} = this.state;
     const length = imageData.length;
@@ -48,23 +56,6 @@ class Slider extends React.Component {
       this.setState({currentIndex});
     } else if(currentIndex === length - 1) {
       currentIndex = 0;
-      this.setState({currentIndex});
-    }
-  }
-
-  handleToNext = () => {
-    let {currentIndex} = this.state;
-    const length = imageData.length;
-    if(currentIndex >= 0 && currentIndex < length - 1) {
-      currentIndex++;
-      this.setState({currentIndex});
-    }
-  }
-
-  handleToPrevious = () => {
-    let {currentIndex} = this.state;
-    if(currentIndex > 0) {
-      currentIndex--;
       this.setState({currentIndex});
     }
   }
@@ -83,6 +74,37 @@ class Slider extends React.Component {
       this.handleStartSlides();
       this.setState({isRunning: true});
     }
+  }
+
+  handleToNext = (e) => {
+    e.preventDefault();
+    let {currentIndex} = this.state;
+    const length = imageData.length;
+    if(currentIndex >= 0 && currentIndex < length - 1) {
+      currentIndex++;
+      this.setState({currentIndex});
+    }
+  }
+
+  handleToPrevious = (e) => {
+    e.preventDefault();
+    let {currentIndex} = this.state;
+    if(currentIndex > 0) {
+      currentIndex--;
+      this.setState({currentIndex});
+    }
+  }
+
+  handleKeyPress = (e) => {
+    const target = e.currentTarget.name;
+    if(e.keyCode === 32) {
+      target === "Previous" ? this.handleToPrevious(e) : this.handleToNext(e);
+    }
+  }
+
+  handleGoToPage = (e) => {
+    const target = parseInt(e.target.name);
+    this.setState({currentIndex: target});
   }
 
   handlePlayButton = () => {
@@ -104,16 +126,19 @@ class Slider extends React.Component {
 
   render() {
     const {currentIndex, isRunning, paused} = this.state;
-    console.log('who is this? ',this.playButton);
     const length = imageData.length;
+
+    let inRangePrev = currentIndex > 0 && currentIndex === length - 1;
+    let inRangeNext = currentIndex === 0 && currentIndex < length - 1;
+
+    let slideNumber = currentIndex + 1;
+    this.changeHash(`slide-${slideNumber}`);
+
     return (
-      <section>
-        <h2>Images of Ireland</h2>
-        <ul>
-          <Slide data={imageData[currentIndex]} />
-        </ul>
+      <section aria-labelledby="carousel-label">
+        <h2 id="carousel-label">Images of Ireland</h2>
+        <Slide slides={imageData} current={currentIndex}/>
         <div className="button-container">
-          <ArrayButton name="Previous" onClick={this.handleToPrevious} disabled={currentIndex === 0}/>
           <PlayButton 
             onMouseEnter={this.handleMouseEnter} 
             onMouseLeave={this.handleMouseLeave} 
@@ -123,7 +148,27 @@ class Slider extends React.Component {
             refBtn={this.playButton}
             style={isRunning ? styles.isPlaying : styles.isPaused}
           />
-          <ArrayButton name="Next" onClick={this.handleToNext} disabled={currentIndex === length - 1}/>
+          <LeftArrow
+            name="Previous" 
+            moveTo={inRangePrev ? `slide-${slideNumber - 1}` : ""} 
+            onClick={this.handleToPrevious}
+            onKeyDown={this.handleKeyPress}
+            disabled={currentIndex === 0}
+          />
+          <SlideNav 
+            slides={imageData}
+            slideNumber={slideNumber}
+            onKeyDown={this.handleKeyPress}
+            onClick={this.handleGoToPage}
+            style={styles}
+          />
+          <RightArrow 
+            name="Next" 
+            moveTo={inRangeNext ? `slide-${slideNumber + 1}` : ""} 
+            onClick={this.handleToNext}
+            onKeyDown={this.handleKeyPress}
+            disabled={currentIndex === length - 1}
+          />
         </div>
       </section>
     );

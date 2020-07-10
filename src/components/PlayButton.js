@@ -1,8 +1,10 @@
 import React from 'react';
 import '../App.css';
+import { ReactComponent as PlayBtn } from '../images/play-circle-solid.svg';
+import { ReactComponent as PauseBtn } from '../images/pause-circle-solid.svg'
 
 function PlayButton(props) {
-  // console.log('ref: ', props.reBtn);
+
   return (
     <button 
       type="button"
@@ -13,7 +15,8 @@ function PlayButton(props) {
       ref={props.refBtn}
       style={props.style}
     >
-      {props.name}
+      {props.pressed ? <PauseBtn /> : <PlayBtn /> }
+      <span>{props.name}</span>
     </button>
   );
 }
