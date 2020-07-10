@@ -23,8 +23,8 @@ class Slider extends React.Component {
     super(props);
     this.state = {
       currentIndex: 0,
-      isRunning: true,
-      paused: false,
+      isRunning: false,
+      paused: true,
       hover: false
     };
     this.playButton = React.createRef();
@@ -32,7 +32,7 @@ class Slider extends React.Component {
   
   componentDidMount() {
     this.playButton.current.focus();
-    this.handleStartSlides();
+    // this.handleStartSlides();
   }
 
   handleStartSlides = () => {
@@ -135,8 +135,8 @@ class Slider extends React.Component {
     this.changeHash(`slide-${slideNumber}`);
 
     return (
-      <section>
-        <h2>Images of Ireland</h2>
+      <section aria-labelledby="carousel-label">
+        <h2 id="carousel-label">Images of Ireland</h2>
         <Slide slides={imageData} current={currentIndex}/>
         <div className="button-container">
           <PlayButton 
