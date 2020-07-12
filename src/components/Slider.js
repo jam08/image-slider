@@ -25,6 +25,7 @@ class Slider extends React.Component {
     this.state = {
       currentIndex: 0,
       showInstructions: false,
+      showKeyboardInstructions: false,
       isRunning: false,
       paused: true,
       hover: false
@@ -32,9 +33,16 @@ class Slider extends React.Component {
   }
 
   handleGalleryFocus = (e) => {
-    console.log('e.target: ', e.target);
-    e.target.id === "image-gallery" ? this.setState({showInstructions: true}) : this.setState({showInstructions: false});
+    e.target.id === "image-gallery" ? this.setState({showKeyboardInstructions: true}) : this.setState({showKeyboardInstructions: false});
   }
+
+  handleGalleryHover = (e) => {
+    if(e.target.id === "image-gallery") {
+      e.type === "mouseenter" ? this.setState({showInstructions: true}) : this.setState({showInstructions: false});
+
+    }
+  }
+
   handleStartSlides = () => {
     this.slideInterval = setInterval(this.handleSlideChange, 4000);
   }
@@ -125,7 +133,7 @@ class Slider extends React.Component {
   }
 
   render() {
-    const {currentIndex, showInstructions, isRunning, paused} = this.state;
+    const {currentIndex, showInstructions, showKeyboardInstructions, isRunning, paused} = this.state;
     const length = imageData.length;
 
     let inRangePrev = currentIndex > 0 && currentIndex === length - 1;
@@ -141,10 +149,12 @@ class Slider extends React.Component {
         tabIndex="0" 
         onFocus={this.handleGalleryFocus}
         onBlur={this.handleGalleryFocus}
+        onMouseEnter={this.handleGalleryHover}
+        onMouseLeave={this.handleGalleryHover}
       >
         <h2 id="gallery">Images of Ireland</h2>
         <Slide slides={imageData} current={currentIndex} />
-        <Instructions show={showInstructions}/>
+        <Instructions keyboardUse={showKeyboardInstructions} showInstructions={showInstructions}/>
         <div className="button-container">
           <PlayButton 
             onMouseEnter={this.handleMouseEnter} 
@@ -152,7 +162,6 @@ class Slider extends React.Component {
             onClick={this.handlePlayButton}
             name={paused ? "Paused" : "Playing"}
             pressed={!paused}
-            // refBtn={this.playButton}
             style={isRunning ? styles.isPlaying : styles.isPaused}
           />
           <LeftArrow
