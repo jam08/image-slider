@@ -22,12 +22,16 @@ h1 {
   margin: 0;
 }
 main {
+  width: 100vw;;
   height: 80vh;
 }
 section {
   box-sizing: border-box;
   width: 100vw;
   line-height: 1.4;
+}
+section:focus {
+  outline: 0.2em solid rgb(40, 145, 206);
 }
 
 section h2 {
@@ -145,9 +149,16 @@ svg {
     height: 100%;
   }
   section {
-    height: 90%;
+    width: 70vw;
+    height: auto;
+    margin: 1em auto;
   }
-
+  .hover-hide, .focus-hide {
+    display: none;
+  }
+  .hover-show, .focus-show {
+    display: block;
+  }
   .slides {
     width: 80%;
     height: 80vh;

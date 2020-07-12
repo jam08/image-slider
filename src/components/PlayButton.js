@@ -12,7 +12,7 @@ function PlayButton(props) {
       onMouseLeave={props.onMouseLeave}
       onClick={props.onClick}
       aria-pressed={props.pressed}
-      ref={props.refBtn}
+      // ref={props.refBtn}
       style={props.style}
     >
       {props.pressed ? <PauseBtn /> : <PlayBtn /> }
