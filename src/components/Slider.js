@@ -33,13 +33,13 @@ class Slider extends React.Component {
   }
 
   handleGalleryFocus = (e) => {
+    console.log(e.target.id);
     e.target.id === "image-gallery" ? this.setState({showKeyboardInstructions: true}) : this.setState({showKeyboardInstructions: false});
   }
 
   handleGalleryHover = (e) => {
     if(e.target.id === "image-gallery") {
       e.type === "mouseenter" ? this.setState({showInstructions: true}) : this.setState({showInstructions: false});
-
     }
   }
 
@@ -143,17 +143,19 @@ class Slider extends React.Component {
     this.changeHash(`slide-${slideNumber}`);
 
     return (
-      <section
-        id="image-gallery" 
-        aria-labelledby="gallery" 
-        tabIndex="0" 
-        onFocus={this.handleGalleryFocus}
-        onBlur={this.handleGalleryFocus}
-        onMouseEnter={this.handleGalleryHover}
-        onMouseLeave={this.handleGalleryHover}
-      >
-        <h2 id="gallery">Images of Ireland</h2>
-        <Slide slides={imageData} current={currentIndex} />
+      <div className="gallery">
+        <section
+          id="image-gallery" 
+          aria-labelledby="gallery" 
+          tabIndex="0" 
+          onFocus={this.handleGalleryFocus}
+          onBlur={this.handleGalleryFocus}
+          onMouseEnter={this.handleGalleryHover}
+          onMouseLeave={this.handleGalleryHover}
+        >
+          <h2 id="gallery">Images of Ireland</h2>
+          <Slide slides={imageData} current={currentIndex} />
+        </section>
         <Instructions keyboardUse={showKeyboardInstructions} showInstructions={showInstructions}/>
         <div className="button-container">
           <PlayButton 
@@ -186,7 +188,7 @@ class Slider extends React.Component {
             disabled={currentIndex === length - 1}
           />
         </div>
-      </section>
+      </div>
     );
   }
 }

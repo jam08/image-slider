@@ -52,7 +52,7 @@ ul {
 }
 
 .slides {
-  width: 100%;
+  /* width: 100%; */
   height: auto;
   margin: 0 auto;
 }
@@ -62,6 +62,10 @@ li {
   margin-right: 0.8em;
   list-style-type: none;
 }
+.slides li {
+  flex: 0 0 100%;
+}
+
 .item {
   height: 100%;
   margin: 0 1em;
@@ -153,22 +157,28 @@ svg {
     height: auto;
     margin: 1em auto;
   }
+
+  .instructions {
+    color: #fff;
+    background-color: #29292b;
+  }
+
+  .touch-hide {
+    display: none;
+  }
+
   .hover-hide, .focus-hide {
     display: none;
   }
+
   .hover-show, .focus-show {
     display: block;
   }
+
   .slides {
-    width: 80%;
+    /* width: 80%; */
     height: 80vh;
     margin: 0 auto;
-  }
-  
-  li {
-    font-size: 1em;
-    margin-right: 0.8em;
-    list-style-type: none;
   }
   .item {
     margin: 0 2em;
