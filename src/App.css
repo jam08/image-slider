@@ -97,6 +97,18 @@ img {
   height: auto;
 }
 
+.instructions {
+  color: #fff;
+  background-color: #29292b;
+}
+
+.hover-hide, .focus-hide, .touch-hide {
+  display: none;
+}
+
+.hover-show, .focus-show, .touch-show {
+  display: block;
+}
 .button-container {
   display: flex;
   flex-direction: column;
@@ -156,23 +168,6 @@ svg {
     width: 70vw;
     height: auto;
     margin: 1em auto;
-  }
-
-  .instructions {
-    color: #fff;
-    background-color: #29292b;
-  }
-
-  .touch-hide {
-    display: none;
-  }
-
-  .hover-hide, .focus-hide {
-    display: none;
-  }
-
-  .hover-show, .focus-show {
-    display: block;
   }
 
   .slides {

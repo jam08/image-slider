@@ -26,19 +26,42 @@ class Slider extends React.Component {
       currentIndex: 0,
       showInstructions: false,
       showKeyboardInstructions: false,
+      showSwipeInstructions: false,
       isRunning: false,
       paused: true,
       hover: false
     };
   }
 
+  handleTouchStart = (e) => {
+    if(e.currentTarget.id === "image-gallery") {
+      this.setState({
+        showSwipeInstructions: true,
+        showKeyboardInstructions: false,
+        showInstructions: false,
+      });
+    }
+  }
   handleGalleryFocus = (e) => {
-    console.log(e.target.id);
-    e.target.id === "image-gallery" ? this.setState({showKeyboardInstructions: true}) : this.setState({showKeyboardInstructions: false});
+    const {showSwipeInstructions} = this.state;
+    if(e.currentTarget.id === "image-gallery" && !showSwipeInstructions) { 
+      this.setState({
+        showKeyboardInstructions: true,
+        showInstructions: false
+      });
+    }
   }
 
+  handleGalleryBlur = () => {
+    this.setState({
+      showKeyboardInstructions: false,
+      showSwipeInstructions: false,
+      showInstructions: false
+    });
+  }
   handleGalleryHover = (e) => {
-    if(e.target.id === "image-gallery") {
+    const {showSwipeInstructions} = this.state;
+    if(e.currentTarget.id === "image-gallery" && !showSwipeInstructions) {
       e.type === "mouseenter" ? this.setState({showInstructions: true}) : this.setState({showInstructions: false});
     }
   }
@@ -133,7 +156,15 @@ class Slider extends React.Component {
   }
 
   render() {
-    const {currentIndex, showInstructions, showKeyboardInstructions, isRunning, paused} = this.state;
+    const {
+      currentIndex, 
+      showInstructions, 
+      showKeyboardInstructions, 
+      showSwipeInstructions,
+      isRunning, 
+      paused
+    } = this.state;
+
     const length = imageData.length;
 
     let inRangePrev = currentIndex > 0 && currentIndex === length - 1;
@@ -149,14 +180,19 @@ class Slider extends React.Component {
           aria-labelledby="gallery" 
           tabIndex="0" 
           onFocus={this.handleGalleryFocus}
-          onBlur={this.handleGalleryFocus}
+          onBlur={this.handleGalleryBlur}
           onMouseEnter={this.handleGalleryHover}
           onMouseLeave={this.handleGalleryHover}
+          onTouchStart={this.handleTouchStart}
         >
           <h2 id="gallery">Images of Ireland</h2>
           <Slide slides={imageData} current={currentIndex} />
         </section>
-        <Instructions keyboardUse={showKeyboardInstructions} showInstructions={showInstructions}/>
+        <Instructions 
+          keyboardInstructions={showKeyboardInstructions} 
+          showInstructions={showInstructions}
+          swipeInstructions={showSwipeInstructions}
+        />
         <div className="button-container">
           <PlayButton 
             onMouseEnter={this.handleMouseEnter} 
